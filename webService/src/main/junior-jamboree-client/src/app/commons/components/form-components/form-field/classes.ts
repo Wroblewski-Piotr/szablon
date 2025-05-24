@@ -1,0 +1,10 @@
+export const APP_INPUT_WRAPPER_ACTIVE_CLASS = 'app-input-wrapper-active';
+export const VERTICAL_LABEL_CLASS = 'vertical-label';
+export const WITH_LABEL_CLASS = 'with-label';
+export const INVALID_CLASS = 'invalid';
+export const REQUIRED_CLASS = 'required';
+export const TWO_ASTERISK_CLASS = 'two-asterisk';
+export const APP_FORM_CONTROL_CLASS = 'app-form-control';
+export const VERTICAL_CLASS = 'vertical';
+export const APP_FORM_FIELD_LABEL_CLASS = 'app-form-field-label';
+export const APP_FORM_FIELD_DISABLED_CLASS = 'app-form-field-disabled';

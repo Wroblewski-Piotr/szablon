@@ -1,0 +1,11 @@
+{
+  "title": "Junior Jumboree",
+  "subtitle": "Logowanie",
+  "email": "adres Email",
+  "set-email": "wprowadź email",
+  "password": "hasło",
+  "set-password": "podaj hasło",
+  "signin": "zaloguj",
+
+  "wrong-credential": "Błędne dane logowania"
+}

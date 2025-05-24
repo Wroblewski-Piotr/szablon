@@ -1,0 +1,34 @@
+@import 'src/styles/theme';
+
+:host.btn {
+  display: inline-block;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.btn-primary {
+    background-color: $blue-light-color;
+    border-color: $blue-light-color;
+
+    &:hover {
+      background-color: $blue-dark-color;
+      border-color: $blue-dark-color;
+    }
+  }
+
+  &.btn-outline-primary {
+    color: $blue-light-color;
+    border-color: $blue-light-color;
+
+    &:hover {
+      color: $white-color;
+      background-color: $blue-dark-color;
+      border-color: $blue-dark-color;
+    }
+  }
+}
+
+a:host {
+  text-decoration: none;
+}

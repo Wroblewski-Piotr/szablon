@@ -1,0 +1,28 @@
+// regular style toast
+@import 'ngx-toastr/toastr';
+// boostrap 5
+@import 'ngx-toastr/toastr-bs5-alert';
+
+.toast-container.toast-top-center {
+  .toast-success,
+  .toast-warning,
+  .toast-error {
+    background-image: none;
+  }
+}
+
+.toast-container {
+  width: 100% !important;
+}
+
+.toast-container {
+  &.toast-top-center {
+    top: 169px;
+    .ngx-toastr {
+      max-width: 800px;
+      width: 100%;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}

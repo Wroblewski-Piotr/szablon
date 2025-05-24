@@ -1,0 +1,25 @@
+@mixin breakpoint {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 0 auto;
+}
+
+@mixin heading() {
+  font-size: 24px;
+  color: $blue-dark-color;
+  margin-bottom: 3rem;
+}
+
+@mixin subheading() {
+  font-size: 20px;
+  color: $blue-dark-color;
+  border-bottom: 2px solid rgba($color: $blue-dark-color, $alpha: 1);
+  padding-bottom: 8px;
+}
+
+@mixin icon-button {
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+}

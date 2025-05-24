@@ -1,0 +1,15 @@
+<header class="header" *transloco="let t">
+  <div class="content">
+    <a [routerLink]="'.'">
+      logo
+    </a>
+    <div class="account">
+      <div class="user">
+        <div class="user-name">{{name + ' ' + surname}}</div>
+        <div class="user-name">{{t('header.roles.' + role)}}</div>
+        <div class="user-name">{{email}}</div>
+      </div>
+      <button appButton (click)="logout()" [color]="'danger'">{{t('header.logout')}}</button>
+    </div>
+  </div>
+</header>

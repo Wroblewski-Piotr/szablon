@@ -1,0 +1,32 @@
+{
+  "errors": {
+    "unknown-error": "Wystąpił nieznany błąd",
+    "messages": {
+      "field-required": "To pole jest wymagane",
+      "wrong-email-format": "Zły format adresu email"
+    }
+  },
+
+  "pagination": {
+    "previous": "Poprzednia",
+    "next": "Następna"
+  },
+
+  "field-required": "Pole Wymagane",
+  "cancel": "anuluj",
+  "yes": "Tak",
+  "no": "Nie",
+  "save": "Zapisz",
+  "save-all": "Zapisz wszystkie",
+  "go-further": "Przejdź dalej",
+  "finish": "Zakończ",
+  "edit": "Edytuj",
+  "ok": "OK",
+  "version": "Wersja",
+  "remove": "Usuń",
+  "search": "Wyszukaj",
+  "email-address": "Adres email",
+  "owner": "Właściciel",
+  "update": "Uaktualnij",
+  "add-new": "Dodaj nową"
+}
