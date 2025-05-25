@@ -8,21 +8,22 @@
 		<module>webService</module>
 		<module>commons</module>
 		<module>auth</module>
+		<module>frontend</module>
 	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.1</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>pl.juniorJamboree</groupId>
-	<artifactId>juniorJamboree</artifactId>
+	<groupId>pl.szablon</groupId>
+	<artifactId>szablon</artifactId>
 	<version>${revision}</version>
-	<name>juniorJamboree</name>
+	<name>szablon</name>
 
 	<properties>
 		<revision>0.0.1-SNAPSHOT</revision>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

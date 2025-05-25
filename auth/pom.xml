@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>juniorJamboree</artifactId>
-        <groupId>pl.juniorJamboree</groupId>
+        <artifactId>szablon</artifactId>
+        <groupId>pl.szablon</groupId>
         <version>${revision}</version>
     </parent>
 
@@ -12,19 +12,15 @@
     <artifactId>auth</artifactId>
     <version>${revision}</version>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>pl.juniorJamboree</groupId>
+            <groupId>pl.szablon</groupId>
             <artifactId>commons</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>pl.juniorJamboree</groupId>
+            <groupId>pl.szablon</groupId>
             <artifactId>model</artifactId>
             <version>${revision}</version>
         </dependency>

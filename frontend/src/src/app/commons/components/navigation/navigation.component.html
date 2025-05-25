@@ -1,0 +1,19 @@
+<nav class="navigation" *transloco="let t">
+  <div class="content">
+    <ul class="items">
+      @for(item of items; track item) {
+        <li class="item">
+          @if(item.path) {
+            <a
+              class="link"
+              [routerLink]="[item.path]"
+              [routerLinkActive]="'selected'"
+            >
+              {{ t(item.name) }}
+            </a>
+          }
+        </li>
+      }
+    </ul>
+  </div>
+</nav>

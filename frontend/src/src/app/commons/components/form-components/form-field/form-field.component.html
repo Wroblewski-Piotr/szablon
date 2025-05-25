@@ -1,0 +1,21 @@
+<div #formFieldWrapper class="app-form-field-wrapper" [ngClass]="{ 'hide-errors': !showErrors }">
+  <ng-content select="[appLabel]"></ng-content>
+  <div class="app-input-errors-wrapper">
+    @if (upDescription) {
+      <span>{{ upDescription }}</span>
+    }
+    <div class="app-input-wrapper" #appInputWrapper>
+      <ng-content select="[appPrefix]"></ng-content>
+      <ng-content select="[appInput]"></ng-content>
+      <ng-content select="[appSuffix]"></ng-content>
+    </div>
+    <ng-content></ng-content>
+    @if (showErrors) {
+      @for (error of errors.toArray() | slice: 0:1; track error) {
+        <ng-container
+          *ngTemplateOutlet="error.template; context: { dirty: input.control?.dirty }"
+        ></ng-container>
+      }
+    }
+  </div>
+</div>
