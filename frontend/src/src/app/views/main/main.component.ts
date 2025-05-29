@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import { NAVIGATION_CONFIG } from './navigation.config';
 import {TRANSLOCO_SCOPE} from "@jsverse/transloco";
 import { RouterOutlet } from "@angular/router";
-import { NavigationComponent } from "../../commons/components/navigation/navigation.component";
+import { NavigationComponent } from "../../commons/navigation/navigation.component";
 import { HeaderComponent } from "./components/header/header.component";
+import { AuthService } from "../../auth/auth.service";
 
 @Component({
   selector: 'app-main',
@@ -27,11 +27,9 @@ import { HeaderComponent } from "./components/header/header.component";
   ]
 })
 export class MainComponent implements OnInit {
-  readonly NAVIGATION_CONFIG = NAVIGATION_CONFIG;
 
-  constructor() { }
+  constructor(private auth: AuthService) { }
 
   ngOnInit(): void {
   }
-
 }

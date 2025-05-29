@@ -5,9 +5,9 @@
     </a>
     <div class="account">
       <div class="user">
-        <div class="user-name">{{name + ' ' + surname}}</div>
-        <div class="user-name">{{t('header.roles.' + role)}}</div>
-        <div class="user-name">{{email}}</div>
+        <div>{{organizationName}}</div>
+        <div>{{name + ' ' + surname}}</div>
+        <div>{{email}}</div>
       </div>
       <button appButton (click)="logout()" [color]="'danger'">{{t('header.logout')}}</button>
     </div>

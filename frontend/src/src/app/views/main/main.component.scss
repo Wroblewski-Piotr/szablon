@@ -1,0 +1,6 @@
+@import 'src/styles/mixins';
+
+.content {
+  margin-top: 2rem !important;
+  @include breakpoint();
+}

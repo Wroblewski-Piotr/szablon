@@ -9,9 +9,9 @@ import {
   Router, RouterOutlet
 } from "@angular/router";
 import {AuthService} from "./auth/auth.service";
-import { LoaderComponent } from "./commons/components/form-components/loader/loader.component";
+import { LoaderComponent } from "./commons/components/loader/loader.component";
 import { AsyncPipe } from "@angular/common";
-import { LoaderService } from "./commons/components/form-components/loader/loader.service";
+import { LoaderService } from "./commons/components/loader/loader.service";
 
 
 const ZDARZENIA_AKTYWUJACE_LOADER = [NavigationStart, GuardsCheckEnd];
@@ -33,10 +33,9 @@ const ZDARZENIA_ZMIENIAJACE_STAN_LOADERA = [...ZDARZENIA_AKTYWUJACE_LOADER, ...Z
 export class AppComponent implements OnInit{
   readonly isLoading$ = this.onGetIsLoading$();
 
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    this.auth.unathorizeIfRefreshTokenExpired();
   }
 
   private onGetIsLoading$() {

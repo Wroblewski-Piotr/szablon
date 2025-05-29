@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AuthService} from "../../auth/auth.service";
 import {catchError, first, of, tap} from "rxjs";
-import {Router} from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { TRANSLOCO_SCOPE, TranslocoDirective, TranslocoService } from "@jsverse/transloco";
-import {withLoader} from "../../commons/components/form-components/loader/with-loader.decorator";
+import {withLoader} from "../../commons/components/loader/with-loader.decorator";
 import {AppToastrService} from "../../commons/toastr/app-toastr.service";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { AppFormFieldComponent } from "../../commons/components/form-components/form-field/form-field.component";
@@ -25,7 +25,8 @@ import { AppButtonComponent } from "../../commons/components/form-components/but
     AppErrorComponent,
     AppLabelComponent,
     AppInputComponent,
-    AppButtonComponent
+    AppButtonComponent,
+    RouterLink
   ],
   providers: [
     {
@@ -51,9 +52,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.authService.isLoggedIn) {
-      this.router.navigateByUrl('/home')
-    }
   }
 
   onSubmit() {

@@ -1,6 +1,6 @@
 import { ApplicationConfig, Injectable } from "@angular/core";
 import { provideRouter } from "@angular/router";
-import { APP_ROUTES } from "./app-routes";
+import { APP_ROUTES } from "./app.routes";
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient } from "@angular/common/http";
 import { AuthInterceptor } from "./auth/auth.interceptor";
 import { provideTransloco, Translation, TranslocoLoader } from "@jsverse/transloco";
@@ -9,6 +9,9 @@ import { AuthService } from "./auth/auth.service";
 import { AppToastrService } from "./commons/toastr/app-toastr.service";
 import { provideToastr } from "ngx-toastr";
 import { provideAnimations } from "@angular/platform-browser/animations";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
+import { providePrimeNG } from "primeng/config";
+import Nora from '@primeng/themes/nora';
 
 @Injectable({providedIn: 'root'})
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -39,6 +42,12 @@ export const appConfig: ApplicationConfig = {
     AuthService,
     provideToastr(),
     provideAnimations(),
-    AppToastrService
+    AppToastrService,
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Nora
+      }
+    })
   ]
 }

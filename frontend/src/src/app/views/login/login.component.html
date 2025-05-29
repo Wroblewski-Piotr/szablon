@@ -1,8 +1,8 @@
 <ng-container *transloco="let t">
   <header class="login-header">
-    <div class="login-header-content">
+    <a class="login-header-content" [routerLink]="''">
       <h1 class="login-title">{{t('login.title')}}</h1>
-    </div>
+    </a>
   </header>
   <div class="login-form">
     <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form">

@@ -1,10 +1,9 @@
-import { MainComponent } from "./main.component";
 import { AppRoutes } from "../../commons/routing/route-data.models";
+import { HomePageComponent } from "./home-page.component";
 
 export default [
   {
     path: '',
-    component: MainComponent,
+    component: HomePageComponent,
   },
 ] satisfies AppRoutes;
-

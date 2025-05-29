@@ -20,6 +20,7 @@ import pl.szablon.auth.SessionHolder;
 import pl.szablon.auth.pojo.Session;
 import pl.szablon.auth.service.UserService;
 import pl.szablon.commons.constans.UrlConstans;
+import pl.szablon.commons.enums.OrganizationTypeEnum;
 import pl.szablon.commons.enums.RoleEnum;
 import pl.szablon.model.modelAndRepository.domain.User;
 
@@ -72,6 +73,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User userFromDB = userService.findByEmail(email)
                 .orElseThrow(RuntimeException::new);
         RoleEnum role = userFromDB.getRole();
+        String organizationName = userFromDB.getOrganization().getName();
+        OrganizationTypeEnum organizationType = userFromDB.getOrganization().getOrganizationType();
 
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
@@ -90,14 +93,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                         .email(email)
                 .build());
 
-        Map<String, String> tokens = Map.of(
+        Map<String, Object> tokens = Map.of(
                 "accessToken", accessToken,
                 "refreshToken", refreshToken,
                 "email", email,
                 "name", userFromDB.getName(),
                 "surname", userFromDB.getSurname(),
                 "role", role.name(),
-                "privilages", privilages.toString());
+                "privilages", privilages,
+                "organizationName", organizationName,
+                "organizationType", organizationType.toString()
+        );
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

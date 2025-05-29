@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
+import pl.szablon.commons.enums.OrganizationTypeEnum;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class Organization {
 
     private String name;
 
+    private OrganizationTypeEnum organizationType;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.REFRESH, mappedBy = "organization", fetch = FetchType.LAZY)

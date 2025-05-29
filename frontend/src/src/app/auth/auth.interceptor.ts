@@ -56,8 +56,9 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private handleTokenExpirationError(req: HttpRequest<any>, next: HttpHandler) {
-    const isRefreshTokenExpired = this.auth.unathorizeIfRefreshTokenExpired();
+    const isRefreshTokenExpired = this.auth.refreshTokenNotExistOrExpired();
     if(isRefreshTokenExpired) {
+      this.auth.unathorizeAndRedirect();
       return of();
     }
 

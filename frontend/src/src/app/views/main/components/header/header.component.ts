@@ -30,16 +30,16 @@ export class HeaderComponent implements OnInit {
   name!: string;
   surname!: string;
   email!: string;
-  role!: string;
+  organizationName!: string;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    const userSession = this.authService.getSessionFromStorage()!;
+    const userSession = this.authService.currentSession!;
     this.name = userSession.name;
     this.surname = userSession.surname;
     this.email = userSession.email;
-    this.role = userSession.role;
+    this.organizationName = userSession.organizationName;
   }
 
   logout() {

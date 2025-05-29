@@ -1,5 +1,12 @@
 {
   "navigation": {
-    "groups": "Grupy"
+    "main-panel": "Panel główny",
+
+    "organized-events": "Moje wydarzenia",
+    "new-event": "Nowe wydarzenie",
+    "applications-for-participation": "Zgłoszenia udziału",
+
+    "find-events": "Znajdź wydarzenie",
+    "my-events": "Moje wydarzenia"
   }
 }

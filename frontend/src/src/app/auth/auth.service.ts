@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, tap} from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {UserSession} from "./model/user.type";
+import { APP_ROUTE_NAMES } from "../app.route-names";
 
 const SESSION_STORAGE_KEY = 'your-doc-session';
 
@@ -11,8 +12,6 @@ export class AuthService {
 
   private sessionSubject = new BehaviorSubject(this.getSessionFromStorage());
 
-  readonly session = this.sessionSubject.asObservable();
-
   constructor(private http: HttpClient, private router: Router) {
   }
 
@@ -20,11 +19,7 @@ export class AuthService {
     return this.sessionSubject.value;
   }
 
-  public get isLoggedIn() {
-    return this.currentSession!!;
-  }
-
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<UserSession> {
     return this.http
       .post<UserSession>(`api/login`, {email, password}, {
         headers: {withoutAuthorization: 'true'}
@@ -38,7 +33,7 @@ export class AuthService {
       );
   }
 
-  refresh() {
+  refresh(): Observable<UserSession> {
     return this.http.post<UserSession>(`api/refreshToken`, this.currentSession?.refreshToken, {
         headers: {withoutAuthorization: 'true'}
       })
@@ -54,7 +49,7 @@ export class AuthService {
       );
   }
 
-  logout() {
+  logout(): void {
     if (!this.currentSession) {
       return;
     }
@@ -64,37 +59,37 @@ export class AuthService {
     this.unauthorize();
   }
 
-  unauthorize() {
+  unauthorize(): void {
     this.removeSession();
-    this.router.navigate(['login']);
+    this.router.navigate([APP_ROUTE_NAMES.LOGIN]);
   }
 
-  unathorizeIfRefreshTokenExpired() {
+  refreshTokenNotExistOrExpired(): boolean {
     const refreshToken = this.getSessionFromStorage()?.refreshToken;
-    if(!refreshToken || this.tokenExpired(refreshToken)) {
-      this.router.navigate(['login']);
-      this.unauthorize();
-      return true;
-    }
-    return false;
+    return !refreshToken || this.tokenExpired(refreshToken);
   }
 
-  getSessionFromStorage(): UserSession | null {
+  unathorizeAndRedirect(): void {
+    this.unauthorize();
+    this.router.navigate([APP_ROUTE_NAMES.LOGIN]);
+  }
+
+  private getSessionFromStorage(): UserSession | null {
     const session = localStorage.getItem(SESSION_STORAGE_KEY);
     return session ? JSON.parse(session) : null;
   }
 
-  private storeSession(user: UserSession) {
+  private storeSession(user: UserSession): void {
     localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(user));
     this.sessionSubject.next(user);
   }
 
-  private removeSession() {
+  private removeSession(): void {
     localStorage.removeItem(SESSION_STORAGE_KEY);
     this.sessionSubject.next(null);
   }
 
-  private tokenExpired(token: string) {
+  private tokenExpired(token: string): boolean {
     const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
     return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }

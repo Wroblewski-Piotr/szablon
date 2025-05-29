@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import pl.szablon.commons.enums.OrganizationTypeEnum;
 import pl.szablon.model.modelAndRepository.domain.Organization;
 import pl.szablon.model.modelAndRepository.domain.OrganizationRepository;
 import pl.szablon.auth.service.UserService;
 
 import java.time.Clock;
+import java.util.List;
 
 @SpringBootApplication(scanBasePackages = "pl.szablon.*")
 @EnableJpaRepositories(value = "pl.szablon.*")
@@ -34,9 +36,12 @@ public class Application {
     public CommandLineRunner run(UserService userService, OrganizationRepository organizationRepository) {
         return args -> {
             if(organizationRepository.findAll().isEmpty()) {
-                Organization organization = TestData.organization("organization");
-                organizationRepository.save(organization);
-                organization.getUsers().forEach(userService::save);
+                List<Organization> organizations = List.of(
+                        TestData.organization("wystawca", OrganizationTypeEnum.EXHIBITOR),
+                        TestData.organization("organizator", OrganizationTypeEnum.ORGANIZER)
+                );
+                organizationRepository.saveAll(organizations);
+                organizations.stream().flatMap(organization -> organization.getUsers().stream()).forEach(userService::save);
             }
         };
     }

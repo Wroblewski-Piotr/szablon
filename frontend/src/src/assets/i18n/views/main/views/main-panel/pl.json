@@ -1,0 +1,20 @@
+{
+  "cards": {
+    "organized-events": {
+      "label": "Moje wydarzenia",
+      "number-of-events": "Ilość wydarzeń"
+    },
+    "applications-for-participation": {
+      "label": "Zgłoszenia udziału",
+      "all-applications-number": "Ilość zgłoszeń"
+    },
+    "find-events": {
+      "label": "Znajdź wydarzenie",
+      "number-of-events-in-my-area": "ilość wydarzeń w mojej okolicy"
+    },
+    "my-events": {
+      "label": "Moje wydarzenia",
+      "number-of-my-events": "Ilość moich wydarzeń"
+    }
+  }
+}

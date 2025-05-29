@@ -1,0 +1,54 @@
+<ng-container *transloco="let t">
+  <div class="row">
+    @for (mainPanelItem of mainPanelItems; track mainPanelItem) {
+      <div class="col-4 mt-2 mb-2">
+        @switch (mainPanelItem.mainPanelItemType) {
+          @case (MainPanelItemTypeEnum.ORGANIZED_EVENTS) {
+            <ng-container *ngTemplateOutlet="organizedEventsTemplate; context: {mainPanelItem}"/>
+          }
+          @case (MainPanelItemTypeEnum.APPLICATIONS_FOR_PARTICIPATION) {
+            <ng-container *ngTemplateOutlet="applicationsForParticipationTemplate; context: {mainPanelItem}"/>
+          }
+          @case (MainPanelItemTypeEnum.FIND_EVENTS) {
+            <ng-container *ngTemplateOutlet="findEventsTemplate; context: {mainPanelItem}"/>
+          }
+          @case (MainPanelItemTypeEnum.MY_EVENTS) {
+            <ng-container *ngTemplateOutlet="myEventsTemplate; context: {mainPanelItem}"/>
+          }
+        }
+      </div>
+    }
+  </div>
+
+  <ng-template #organizedEventsTemplate let-mainPanelItem="mainPanelItem">
+    <p-card [header]="t('main-panel.cards.organized-events.label')">
+      <p class="m-0">
+        {{ t('main-panel.cards.organized-events.number-of-events') + ' ' + mainPanelItem.numberOfEvents }}
+      </p>
+    </p-card>
+  </ng-template>
+
+  <ng-template #applicationsForParticipationTemplate let-mainPanelItem="mainPanelItem">
+    <p-card [header]="t('main-panel.cards.applications-for-participation.label')">
+      <p class="m-0">
+        {{ t('main-panel.cards.applications-for-participation.all-applications-number') + ' ' + mainPanelItem.allApplicationsNumber }}
+      </p>
+    </p-card>
+  </ng-template>
+
+  <ng-template #findEventsTemplate let-mainPanelItem="mainPanelItem">
+    <p-card [header]="t('main-panel.cards.find-events.label')">
+      <p class="m-0">
+        {{ t('main-panel.cards.find-events.number-of-events-in-my-area') + ' ' + mainPanelItem.numberOfEventsInMyArea }}
+      </p>
+    </p-card>
+  </ng-template>
+
+  <ng-template #myEventsTemplate let-mainPanelItem="mainPanelItem">
+    <p-card [header]="t('main-panel.cards.my-events.label')">
+      <p class="m-0">
+        {{ t('main-panel.cards.my-events.number-of-my-events') + ' ' + mainPanelItem.numberOfMyEvents }}
+      </p>
+    </p-card>
+  </ng-template>
+</ng-container>
