@@ -54,3 +54,11 @@
   flex-direction: row;
   align-items: center;
 }
+
+::ng-deep {
+  p-dropdown {
+    border: none !important;
+    outline: none !important;
+    width: 100%;
+  }
+}

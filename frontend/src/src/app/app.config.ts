@@ -1,8 +1,8 @@
-import { ApplicationConfig, Injectable } from "@angular/core";
+import { ApplicationConfig, inject, Injectable } from "@angular/core";
 import { provideRouter } from "@angular/router";
 import { APP_ROUTES } from "./app.routes";
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient } from "@angular/common/http";
-import { AuthInterceptor } from "./auth/auth.interceptor";
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptors } from "@angular/common/http";
+import { authInterceptor } from "./auth/auth.interceptor";
 import { provideTransloco, Translation, TranslocoLoader } from "@jsverse/transloco";
 import { environment } from "../environments/environment";
 import { AuthService } from "./auth/auth.service";
@@ -26,7 +26,6 @@ export class TranslocoHttpLoader implements TranslocoLoader {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(APP_ROUTES),
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     provideTransloco({
         config: {
           availableLangs: ['pl'],
@@ -38,7 +37,9 @@ export const appConfig: ApplicationConfig = {
         loader: TranslocoHttpLoader
       }
     ),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    ),
     AuthService,
     provideToastr(),
     provideAnimations(),

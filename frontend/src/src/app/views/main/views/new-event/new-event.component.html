@@ -1,0 +1,53 @@
+<ng-container *transloco="let t">
+  <h2 class="subtitle">{{t('new-event.subtitle')}}</h2>
+  <hr class="separator"/>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form">
+    <app-form-field class="field">
+      <label
+        appLabel
+        class="label"
+        for="name"
+        [required]="true"
+      >{{t('new-event.form.name.label')}}</label>
+      <input
+        appInput
+        type="text"
+        id="name"
+        formControlName="name"
+        [placeholder]="t('new-event.form.name.placeholder')">
+      @if(form.controls.name.hasError('required')) {
+        <app-error
+          [message]="t('errors.messages.field-required')"
+        ></app-error>
+      }
+    </app-form-field>
+
+    <app-form-field>
+      <label
+        appLabel
+        class="label"
+        for="description"
+        [required]="true"
+      >{{t('new-event.form.description.label')}}</label>
+      <textarea
+        appInput
+        type="text"
+        id="description"
+        formControlName="description"
+        [placeholder]="t('new-event.form.description.placeholder')"></textarea>
+      @if(form.controls.description.hasError('required')) {
+        <app-error
+          [message]="t('errors.messages.field-required')"
+        ></app-error>
+      }
+    </app-form-field>
+
+    <app-teryt-address-control></app-teryt-address-control>
+
+    <div class="form-group text-right">
+      <button appButton type="submit" [disabled]="form.invalid">{{t('new-event.save')}}</button>
+    </div>
+    <label class="required-field-star">{{t('field-required')}}</label>
+  </form>
+</ng-container>

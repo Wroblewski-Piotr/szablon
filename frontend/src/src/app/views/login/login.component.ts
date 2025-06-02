@@ -7,10 +7,10 @@ import {withLoader} from "../../commons/components/loader/with-loader.decorator"
 import {AppToastrService} from "../../commons/toastr/app-toastr.service";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { AppFormFieldComponent } from "../../commons/components/form-components/form-field/form-field.component";
-import { AppErrorComponent } from "../../commons/components/form-components/form-field/error/error.component";
-import { AppLabelComponent } from "../../commons/components/form-components/form-field/label/label.component";
 import { AppInputComponent } from "../../commons/components/form-components/form-field/input/input.component";
 import { AppButtonComponent } from "../../commons/components/form-components/button/button.component";
+import { AppErrorComponent } from "../../commons/components/form-components/form-field/error/app-error.component";
+import { AppLabelComponent } from "../../commons/components/form-components/form-field/label/app-label.component";
 
 @Component({
   selector: 'app-login',
@@ -76,10 +76,7 @@ export class LoginComponent implements OnInit {
   }
 
   private markAsDirty() {
-    this.form.controls.email.markAsDirty()
-    this.form.controls.email.updateValueAndValidity();
-    this.form.controls.password.markAsDirty();
-    this.form.controls.password.updateValueAndValidity();
+    this.form.markAsDirty()
+    this.form.updateValueAndValidity();
   }
-
 }

@@ -1,0 +1,21 @@
+<ng-container *transloco="let t">
+
+    <form [formGroup]="form" class="form">
+      <app-form-field>
+        <label appLabel [required]="true">{{t('login.password')}}</label>
+<!--        <p-autoComplete-->
+<!--          id="password"-->
+<!--          formControlName="wojewodztwo"-->
+<!--          [options]="wojewodztwa"-->
+<!--          [showClear]="true"-->
+<!--        >-->
+<!--        </p-autoComplete>-->
+        @if(form.controls.wojewodztwo.hasError('required')) {
+          <app-error
+            [message]="t('errors.messages.field-required')"
+          ></app-error>
+        }
+      </app-form-field>
+    </form>
+
+</ng-container>

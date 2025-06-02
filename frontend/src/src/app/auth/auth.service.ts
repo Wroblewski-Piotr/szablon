@@ -51,15 +51,12 @@ export class AuthService {
 
   logout(): void {
     if (!this.currentSession) {
+      this.router.navigate([APP_ROUTE_NAMES.LOGIN]);
       return;
     }
     this.http.post<void>(`api/logout`, this.currentSession, {
       headers: {withoutAuthorization: 'true'}
     }).subscribe()
-    this.unauthorize();
-  }
-
-  unauthorize(): void {
     this.removeSession();
     this.router.navigate([APP_ROUTE_NAMES.LOGIN]);
   }
@@ -67,11 +64,6 @@ export class AuthService {
   refreshTokenNotExistOrExpired(): boolean {
     const refreshToken = this.getSessionFromStorage()?.refreshToken;
     return !refreshToken || this.tokenExpired(refreshToken);
-  }
-
-  unathorizeAndRedirect(): void {
-    this.unauthorize();
-    this.router.navigate([APP_ROUTE_NAMES.LOGIN]);
   }
 
   private getSessionFromStorage(): UserSession | null {

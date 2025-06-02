@@ -1,0 +1,26 @@
+@import 'src/styles/theme';
+
+:host.app-form-field-label {
+  display: flex;
+  flex-direction: row;
+  margin: 0 0 0 0;
+  padding-top: calc(0.375rem + 1px);
+  padding-bottom: calc(0.375rem + 1px);
+  color: #000000;
+  font-weight: 500;
+  font-size: 1rem;
+
+  &.required:after {
+    color: $red-color;
+    font-weight: bold;
+    white-space: pre;
+    content: ' *';
+  }
+
+  &.one-of-required::after {
+    color: $red-color;
+    font-weight: bold;
+    white-space: pre;
+    content: ' **';
+  }
+}

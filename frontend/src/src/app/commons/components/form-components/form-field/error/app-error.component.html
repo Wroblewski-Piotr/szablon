@@ -1,0 +1,5 @@
+<ng-template #template let-visible="visible">
+  <span [style.display]="visible ? 'block' : 'none'" [@visibilityChanged]="visible ? 'enter' : 'void'">
+    <span role="alert" [class]="className || APP_ERROR_CLASS">{{ message }}</span>
+  </span>
+</ng-template>

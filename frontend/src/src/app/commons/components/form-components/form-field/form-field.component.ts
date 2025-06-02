@@ -1,29 +1,18 @@
 import {
   Component,
+  Input,
+  ContentChild,
   ContentChildren,
   QueryList,
   AfterContentInit,
-  ContentChild,
-  ViewChild,
-  Renderer2,
-  ElementRef,
-  Input,
-  OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef,
+  OnDestroy,
+  ChangeDetectorRef,
+  OnInit, ChangeDetectionStrategy,
 } from '@angular/core';
-import { Subscription, fromEvent } from 'rxjs';
-import { startWith } from 'rxjs/operators';
-
-import { AppInputComponent } from './input/input.component';
-import { AppLabelComponent } from './label/label.component';
-import { AppErrorComponent } from './error/error.component';
-import {
-  VERTICAL_LABEL_CLASS,
-  WITH_LABEL_CLASS,
-  INVALID_CLASS,
-  APP_INPUT_WRAPPER_ACTIVE_CLASS,
-  APP_FORM_FIELD_DISABLED_CLASS,
-} from './classes';
-import { NgClass, NgTemplateOutlet, SlicePipe } from "@angular/common";
+import { NgControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { NgTemplateOutlet, SlicePipe } from "@angular/common";
+import { AppErrorComponent } from "./error/app-error.component";
 
 @Component({
   selector: 'app-form-field',
@@ -32,108 +21,46 @@ import { NgClass, NgTemplateOutlet, SlicePipe } from "@angular/common";
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    SlicePipe,
     NgTemplateOutlet,
-    NgClass,
+    SlicePipe
   ]
 })
-export class AppFormFieldComponent implements AfterContentInit, OnDestroy {
+export class AppFormFieldComponent implements OnInit, AfterContentInit, OnDestroy {
   private subscriptions = new Subscription();
 
-  @Input() required: boolean = false;
-  @Input() showErrors: boolean = true;
-  @Input() upDescription: string | null = null;
+  readonly APP_FORM_FIELD_WRAPPER_CLASS = "app-form-field-wrapper";
+  readonly APP_INPUT_ERRORS_WRAPPER_CLASS = "app-input-errors-wrapper";
+  readonly APP_INPUT_WRAPPER_CLASS = "app-input-wrapper";
+  readonly APP_ERRORS_CONTAINER_CLASS = "app-errors-container";
 
-  @ViewChild('formFieldWrapper', { static: true }) formFieldWrapper!: ElementRef<HTMLDivElement>;
-  @ViewChild('appInputWrapper', { static: true }) appInputWrapper!: ElementRef<HTMLDivElement>;
+  @Input() required = false;
+  @Input() showErrors = true;
 
-  @ContentChild(AppInputComponent, { static: true }) input!: AppInputComponent;
-  @ContentChild(AppLabelComponent, { static: true }) label!: AppLabelComponent;
+  @Input() wrapperClass?: string;
+  @Input() inputErrorsWrapperClass?: string;
+  @Input() inputWrapperClass?: string;
+  @Input() errorsContainerClass?: string;
+
+  @ContentChild(NgControl, { static: true }) ngControl?: NgControl;
   @ContentChildren(AppErrorComponent) errors!: QueryList<AppErrorComponent>;
 
-  constructor(private renderer: Renderer2, private cdr: ChangeDetectorRef) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
+  get control() {
+    return this.ngControl?.control;
+  }
+
+  ngOnInit() {
+    if (!this.ngControl) {
+      console.warn('AppFormFieldComponent should contain a component with a ValueAccessor.');
+    }
+  }
 
   ngAfterContentInit() {
-    if (!this.input) {
-      return;
-    }
-
-    this.setClassesToLabel();
-    this.input.required = this.required;
-    this.subscriptions.add(this.addValueChangesSub());
-    this.subscriptions.add(this.addFocusOnInputSub());
-    this.subscriptions.add(this.addFocusOutOnInputSub());
-    this.subscriptions.add(this.addStatusChangeSub()!);
-    this.errors.changes.subscribe(() => this.cdr.detectChanges());
+    this.subscriptions.add(this.errors.changes.subscribe(() => this.changeDetectorRef.markForCheck()));
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
-  }
-
-  private setClassesToLabel() {
-    if (this.label) {
-      const formFieldWrapperElement = this.formFieldWrapper.nativeElement;
-      if (this.label.vertical) {
-        this.addClass(formFieldWrapperElement, VERTICAL_LABEL_CLASS);
-      }
-      this.addClass(formFieldWrapperElement, this.label ? WITH_LABEL_CLASS : '');
-
-      this.label.required = this.required;
-    }
-  }
-
-  private addValueChangesSub() {
-
-    const { control } = this.input;
-    if (!control) {
-      return Subscription.EMPTY;
-    }
-    const appInputWrapperElement = this.appInputWrapper.nativeElement;
-    return control.valueChanges!.subscribe((val: string) => {
-      if (!control.errors || (!control.dirty && val === null)) {
-        this.input.invalid = false;
-        this.removeClass(appInputWrapperElement, INVALID_CLASS);
-      } else {
-        this.input.invalid = true;
-        this.addClass(appInputWrapperElement, INVALID_CLASS);
-      }
-    });
-  }
-
-  private addFocusOnInputSub() {
-    const el = this.appInputWrapper.nativeElement;
-    return fromEvent(el, 'focusin').subscribe((event) => {
-      this.addClass(el, APP_INPUT_WRAPPER_ACTIVE_CLASS);
-    });
-  }
-
-  private addFocusOutOnInputSub() {
-    const el = this.appInputWrapper.nativeElement;
-    return fromEvent(el, 'focusout').subscribe((event) => {
-      this.removeClass(el, APP_INPUT_WRAPPER_ACTIVE_CLASS);
-    });
-  }
-
-  private addClass(el: HTMLElement, className: string) {
-    this.renderer.addClass(el, className);
-  }
-
-  private removeClass(el: HTMLElement, className: string) {
-    this.renderer.removeClass(el, className);
-  }
-
-  private addStatusChangeSub(): Subscription | void {
-    if (!this.input || !this.input.control) {
-      return Subscription.EMPTY;
-    }
-
-    this.input.control.control!.statusChanges.pipe(startWith(true)).subscribe(() => {
-      if (this.input.control.disabled) {
-        this.addClass(this.appInputWrapper.nativeElement, APP_FORM_FIELD_DISABLED_CLASS);
-      } else {
-        this.removeClass(this.appInputWrapper.nativeElement, APP_FORM_FIELD_DISABLED_CLASS);
-      }
-    });
   }
 }

@@ -5,6 +5,7 @@ import { Card } from "primeng/card";
 import { MainPanelItemType, MainPanelItemTypeEnum } from "./main-panel.model";
 import { NgTemplateOutlet } from "@angular/common";
 import { OrganizationTypeEnum } from "../../../../commons/enums/organization-type-enum";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-main-panel',
@@ -51,6 +52,10 @@ export class MainPanelComponent {
       }
     ]
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
+  }
+
+  goToLoginPage(path: string) {
+    this.router.navigate([path]);
   }
 }

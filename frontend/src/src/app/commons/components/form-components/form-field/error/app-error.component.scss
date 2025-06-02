@@ -1,0 +1,9 @@
+@import 'src/styles/theme';
+
+.app-error,
+.app-error-abs {
+  padding-top: 0.25rem;
+  color: $red-color;
+  font-size: 80%;
+  position: absolute;
+}

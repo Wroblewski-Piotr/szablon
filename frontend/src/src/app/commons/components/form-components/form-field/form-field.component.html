@@ -1,21 +1,18 @@
-<div #formFieldWrapper class="app-form-field-wrapper" [ngClass]="{ 'hide-errors': !showErrors }">
+<div [class]="wrapperClass ?? APP_FORM_FIELD_WRAPPER_CLASS">
   <ng-content select="[appLabel]"></ng-content>
-  <div class="app-input-errors-wrapper">
-    @if (upDescription) {
-      <span>{{ upDescription }}</span>
-    }
-    <div class="app-input-wrapper" #appInputWrapper>
-      <ng-content select="[appPrefix]"></ng-content>
-      <ng-content select="[appInput]"></ng-content>
-      <ng-content select="[appSuffix]"></ng-content>
+  <div [class]="inputErrorsWrapperClass ?? APP_INPUT_ERRORS_WRAPPER_CLASS">
+    <div [class]="inputWrapperClass ?? APP_INPUT_WRAPPER_CLASS" #inputWrapper>
+      <ng-content></ng-content>
     </div>
-    <ng-content></ng-content>
-    @if (showErrors) {
-      @for (error of errors.toArray() | slice: 0:1; track error) {
-        <ng-container
-          *ngTemplateOutlet="error.template; context: { dirty: input.control?.dirty }"
-        ></ng-container>
-      }
+    @if(showErrors) {
+      <div [class]="errorsContainerClass ?? APP_ERRORS_CONTAINER_CLASS">
+        @for(error of errors.toArray() | slice: 0:1; track errors) {
+          <ng-container
+            [ngTemplateOutlet]="error.template"
+            [ngTemplateOutletContext]="{ visible: control?.dirty || control?.touched }"
+          ></ng-container>
+        }
+      </div>
     }
   </div>
 </div>

@@ -1,0 +1,14 @@
+{
+  "subtitle": "Tworzenie nowego wydarzenia",
+  "form": {
+    "name": {
+      "label": "Nazwa",
+      "placeholder": "Wprowadź nazwę wydarzenia"
+    },
+    "description": {
+      "label": "Opis",
+      "placeholder": "Wprowadź opis wydarzenia"
+    }
+  },
+  "save": "Zapisz"
+}

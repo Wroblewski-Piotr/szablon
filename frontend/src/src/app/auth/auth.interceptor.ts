@@ -1,84 +1,73 @@
-import {HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {throwError, BehaviorSubject, of, EMPTY} from 'rxjs';
+import {
+  HttpRequest,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpInterceptorFn, HttpHandlerFn
+} from '@angular/common/http';
+import { inject } from '@angular/core';
+import { throwError, BehaviorSubject, of, EMPTY, Observable } from 'rxjs';
 import {catchError, switchMap, filter, first, finalize} from 'rxjs/operators';
 import {AuthService} from "./auth.service";
-import {Router} from "@angular/router";
+import { UserSession } from "./model/user.type";
 
 export const WITHOUT_AUTHORIZATION = 'withoutAuthorization';
 
 const DEFAULT_TRANSLATIONS_PATH = '/assets/i18n/pl.json';
 const REFRESH_TOKEN_URL = "api/refreshToken"
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  private readonly refreshingToken = new BehaviorSubject(false);
+const refreshingToken$ = new BehaviorSubject<boolean>(false);
 
-  get session() {
-    return this.auth.currentSession;
+export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+  const auth = inject(AuthService);
+  const session = auth.currentSession;
+
+  const {url, headers} = req;
+  if (!headers.has(WITHOUT_AUTHORIZATION) && session && session.accessToken && !url.endsWith(DEFAULT_TRANSLATIONS_PATH)) {
+    req = withAuthorization(req, session.accessToken);
   }
 
-  constructor(private auth: AuthService,
-              private router: Router) {
-  }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const {url, headers} = req;
-    if (!headers.has(WITHOUT_AUTHORIZATION) && this.session && this.session.accessToken && !url.endsWith(DEFAULT_TRANSLATIONS_PATH)) {
-      req = this.withAuthorization(req, this.session.accessToken);
-    }
-
-    return next.handle(req).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          return this.handleUnauthorizedError(error);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        if(url.includes(REFRESH_TOKEN_URL)) {
+          auth.logout();
+          return EMPTY;
         }
-        if (error.status === 403) {
-          if(url.includes(REFRESH_TOKEN_URL)) {
-            this.auth.unauthorize();
-            this.router.navigateByUrl('/login')
-            return EMPTY;
-          }
-          return this.handleTokenExpirationError(req, next);
-        }
-        return throwError(error);
-      }),
-    );
-  }
-
-  private withAuthorization(req: HttpRequest<any>, token: string) {
-    return req.clone({setHeaders: {Authorization: `Bearer ${token}`}});
-  }
-
-  private handleUnauthorizedError(error: HttpErrorResponse) {
-    this.auth.unauthorize();
-    return throwError(error && error.error);
-  }
-
-  private handleTokenExpirationError(req: HttpRequest<any>, next: HttpHandler) {
-    const isRefreshTokenExpired = this.auth.refreshTokenNotExistOrExpired();
-    if(isRefreshTokenExpired) {
-      this.auth.unathorizeAndRedirect();
-      return of();
-    }
-
-    if (!this.refreshingToken.value) {
-      this.refreshingToken.next(true);
-
-      return this.auth.refresh().pipe(
-        switchMap(({accessToken}) => {
-          return next.handle(this.withAuthorization(req, accessToken!));
-        }),
-        finalize(() => {
-          this.refreshingToken.next(false);
-        })
-      );
-    }
-
-    return this.refreshingToken.pipe(
-      filter(value => !value),
-      first(),
-      switchMap(() => next.handle(this.withAuthorization(req, this.session!.accessToken!))),
-    );
-  }
+        return handleAccessTokenExpirationError(req, next, auth, session!);
+      }
+      return throwError(error);
+    }),
+  );
 }
+
+const handleAccessTokenExpirationError = (req: HttpRequest<any>, next: HttpHandlerFn, auth: AuthService, session: UserSession) => {
+  const isRefreshTokenExpired = auth.refreshTokenNotExistOrExpired();
+  if(isRefreshTokenExpired) {
+    auth.logout();
+    return of();
+  }
+
+  if (!refreshingToken$.value) {
+    refreshingToken$.next(true);
+
+    return auth.refresh().pipe(
+      switchMap(({accessToken}) => {
+        return next(withAuthorization(req, accessToken!));
+      }),
+      finalize(() => {
+        refreshingToken$.next(false);
+      })
+    );
+  }
+
+  return refreshingToken$.pipe(
+    filter(value => !value),
+    first(),
+    switchMap(() => next(withAuthorization(req, session.accessToken!))),
+  );
+}
+
+const withAuthorization = (req: HttpRequest<any>, token: string) => {
+  return req.clone({setHeaders: {Authorization: `Bearer ${token}`}});
+}
+

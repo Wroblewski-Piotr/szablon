@@ -16,14 +16,15 @@
 		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>pl.szablon</groupId>
-	<artifactId>szablon</artifactId>
+	<groupId>pl.eventFinder</groupId>
+	<artifactId>eventFinder</artifactId>
 	<version>${revision}</version>
-	<name>szablon</name>
+	<name>eventFinder</name>
 
 	<properties>
 		<revision>0.0.1-SNAPSHOT</revision>
 		<java.version>21</java.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
 	</properties>
 	<dependencies>
 		<dependency>

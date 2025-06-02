@@ -10,20 +10,8 @@
       <hr class="separator"/>
 
       <app-form-field class="field">
-        <label
-          appLabel
-          class="label"
-          for="email"
-          [required]="true"
-          [vertical]="true"
-        >{{t('login.email')}}</label>
-        <input
-          appInput
-          type="text"
-          id="email"
-          formControlName="email"
-          [placeholder]="t('login.set-email')"
-        />
+        <label appLabel for="email" [required]="true">{{t('login.email')}}</label>
+        <input appInput type="text" id="email" formControlName="email" [placeholder]="t('login.set-email')"/>
         @if(form.controls.email.hasError('required')) {
           <app-error
             [message]="t('errors.messages.field-required')"
@@ -37,20 +25,8 @@
       </app-form-field>
 
       <app-form-field>
-        <label
-          appLabel
-          class="label"
-          for="password"
-          [required]="true"
-          [vertical]="true"
-        >{{t('login.password')}}</label>
-        <input
-          appInput
-          type="password"
-          id="password"
-          formControlName="password"
-          [placeholder]="t('login.set-password')"
-        />
+        <label appLabel for="password" [required]="true">{{t('login.password')}}</label>
+        <input appInput type="password" id="password" formControlName="password" [placeholder]="t('login.set-password')"/>
         @if(form.controls.password.hasError('required')) {
           <app-error
             [message]="t('errors.messages.field-required')"

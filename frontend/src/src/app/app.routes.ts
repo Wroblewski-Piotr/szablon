@@ -2,7 +2,13 @@ import { Routes } from "@angular/router";
 import { MainComponent } from "./views/main/main.component";
 import { APP_ROUTE_NAMES } from "./app.route-names";
 import { MAIN_PANEL_ROUTE_NAMES } from "./views/main/views/main-panel/main-panel.routes-names";
-import { userAuthenticatedGuard, userUnauthenticatedGuard } from "./commons/guards/user-authenticated.guard";
+import {
+  haveAuthorityGuard,
+  userAuthenticatedGuard,
+  userUnauthenticatedGuard
+} from "./commons/guards/user-authenticated.guard";
+import { NEW_EVENT_ROUTE_NAMES } from "./views/main/views/new-event/new-event.routes-names";
+import { AuthoritiesEnum } from "./commons/enums/authoritiesEnum";
 
 export const APP_ROUTES: Routes = [
   {
@@ -23,6 +29,11 @@ export const APP_ROUTES: Routes = [
       {
         path: MAIN_PANEL_ROUTE_NAMES.BASE,
         loadChildren: () => import('./views/main/views/main-panel/main-panel.routes')
+      },
+      {
+        path: NEW_EVENT_ROUTE_NAMES.BASE,
+        canActivate: [haveAuthorityGuard(AuthoritiesEnum.MANAGE_ORGANIZATION_EVENTS)],
+        loadChildren: () => import('./views/main/views/new-event/new-event.routes')
       },
       {
         path: '**',

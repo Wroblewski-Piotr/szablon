@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>szablon</artifactId>
-        <groupId>pl.szablon</groupId>
+        <artifactId>eventFinder</artifactId>
+        <groupId>pl.eventFinder</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,19 +14,30 @@
 
     <dependencies>
         <dependency>
-            <groupId>pl.szablon</groupId>
+            <groupId>pl.eventFinder</groupId>
             <artifactId>model</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>pl.szablon</groupId>
+            <groupId>pl.eventFinder</groupId>
             <artifactId>commons</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>pl.szablon</groupId>
+            <groupId>pl.eventFinder</groupId>
             <artifactId>auth</artifactId>
             <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
     </dependencies>
 
@@ -36,7 +47,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>pl.szablon.webService.Application</mainClass>
+                    <mainClass>pl.eventFinder.webService.Application</mainClass>
                 </configuration>
                 <executions>
                     <execution>

@@ -1,8 +1,9 @@
-import { PrivilageEnum } from "../enums/privilage.enum";
+import { AuthoritiesEnum } from "../enums/authoritiesEnum";
 import { NavigationItemConfig } from "./navigation.item.config.type";
+import { NEW_EVENT_ROUTE_NAMES } from "../../views/main/views/new-event/new-event.routes-names";
 
-export const PRIVILAGE_NAVIGATION_ITEM_MAP: Record<PrivilageEnum, NavigationItemConfig[]> = {
-  [PrivilageEnum.MANAGE_ORGANIZATION_EVENTS]:
+export const PRIVILAGE_NAVIGATION_ITEM_MAP: Record<AuthoritiesEnum, NavigationItemConfig[]> = {
+  [AuthoritiesEnum.MANAGE_ORGANIZATION_EVENTS]:
     [
       {
         name: 'main.navigation.organized-events',
@@ -11,25 +12,25 @@ export const PRIVILAGE_NAVIGATION_ITEM_MAP: Record<PrivilageEnum, NavigationItem
       },
       {
         name: 'main.navigation.new-event',
-        path: 'new-event',
+        path: NEW_EVENT_ROUTE_NAMES.BASE,
         orderNumber: 20
       }
     ],
-  [PrivilageEnum.MANAGE_APPLICATIONS_FOR_ORGANIZATION_EVENTS]: [
+  [AuthoritiesEnum.MANAGE_APPLICATIONS_FOR_ORGANIZATION_EVENTS]: [
     {
       name: 'main.navigation.applications-for-participation',
       path: 'applications-from-participation',
       orderNumber: 30
     }
   ],
-  [PrivilageEnum.SEARCH_EVENTS]: [
+  [AuthoritiesEnum.SEARCH_EVENTS]: [
     {
       name: 'main.navigation.find-events',
       path: 'find-events',
       orderNumber: 40
     }
   ],
-  [PrivilageEnum.POSSIBILITY_TO_PARTICIPATE_IN_EVENTS]: [
+  [AuthoritiesEnum.POSSIBILITY_TO_PARTICIPATE_IN_EVENTS]: [
     {
       name: 'main.navigation.my-events',
       path: 'my-events',
